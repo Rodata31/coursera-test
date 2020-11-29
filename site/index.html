@@ -2,19 +2,27 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main Page</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css" />
 </head>
 
 <body>
     <h1>Hello World. It's a great course</h1>
     <h2>What are you waiting for?</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem officia quisquam deserunt ea odit aliquam?</p>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis culpa incidunt impedit, deserunt expedita accusamus quasi cum voluptatum explicabo dolore quia repellendus cumque ab delectus! Laborum tempora ipsa iure facere.</p>
-    <button>Click me</button>
-    <button>Another button just to click</button>
+    <p id="first">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem officia quisquam deserunt ea odit aliquam?
+    </p>
+    <p id="second">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis culpa incidunt impedit, deserunt expedita accusamus quasi cum voluptatum explicabo dolore quia repellendus cumque ab delectus! Laborum tempora ipsa iure facere.
+    </p>
+    <button onclick="change_color(first_p)">Click me</button>
+    <button onclick="change_color(second_p)">
+      Another button just to click
+    </button>
+
+    <script src="main.js"></script>
 </body>
 
 </html>
