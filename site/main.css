@@ -5,3 +5,8 @@ body {
 h1 {
     color: blue;
 }
+
+.first-p {
+    background: rgb(31, 31, 248);
+    color: white;
+}
