@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    /*2% del ancho del padre(body)*/
+}
+
+.row {
+    width: 100%;
+}
+
+.food-container {
+    background-color: #999999;
+    width: 90%;
+    min-height: 215px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid black;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.title {
+    position: absolute;
+    width: 150px;
+    text-align: center;
+    border: 2px solid black;
+    left: calc(100% - 150px);
+}
+
+.text-content {
+    margin-top: 60px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row>div:nth-child(1) .title {
+    background-color: pink;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.row>div:nth-child(2) .title {
+    background-color: rgb(197, 24, 24);
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+}
+
+.row>div:nth-child(3) .title {
+    background: rgb(223, 223, 120);
+    font-weight: bold;
+}
+
+
+/* Responsive layout */
+
+
+/* Desktop */
+
+@media (min-width: 992px) {
+    .col-lg-4 {
+        width: 33.33%;
+        float: left;
+    }
+}
+
+
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .col-md-6 {
+        width: 50%;
+        float: left;
+    }
+    .row>div:last-child {
+        width: 100%;
+    }
+    .row>div:nth-child(3) .food-container {
+        width: calc(100% - 25.531px * 2);
+    }
+}
+
+
+/* Smartphone */
+
+@media (max-width: 767px) {
+    .col-sm-12 {
+        width: 100%;
+        float: left;
+    }
+    .food-container {
+        min-height: 250px;
+    }
+}
