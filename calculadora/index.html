@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flex box</title>
+    <title>Rodrigo Cerna</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap");
         * {
@@ -24,15 +24,52 @@
             margin-top: 10px;
         }
         
-        .kosh {
-            align-self: center;
-            font-size: 4em;
-            font-family: "Comic Neue", cursive;
-            text-transform: uppercase;
-            word-wrap: break-word;
-            color: rgba(28, 172, 172, 0.8);
+        .box {
+            display: flex;
+        }
+        
+        .box .inner {
             width: 400px;
-            text-align: center;
+            height: 200px;
+            line-height: 200px;
+            font-size: 4em;
+            font-family: sans-serif;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .box .inner:first-child {
+            background-color: indianred;
+            color: darkred;
+            transform-origin: right;
+            transform: perspective(100px) rotateY(-15deg);
+        }
+        
+        .box .inner:last-child {
+            background-color: lightcoral;
+            color: antiquewhite;
+            transform-origin: left;
+            transform: perspective(100px) rotateY(15deg);
+        }
+        
+        .box .inner span {
+            position: absolute;
+            animation: marquee 5s linear infinite;
+        }
+        
+        .box .inner:first-child span {
+            animation-delay: 2.5s;
+            left: -100%;
+        }
+        
+        @keyframes marquee {
+            from {
+                left: 100%;
+            }
+            to {
+                left: -100%;
+            }
         }
         
         .flex-container {
@@ -55,7 +92,7 @@
         .prev-operand {
             padding: 5px;
             padding-right: 10px;
-            font-size: 1.7em;
+            font-size: 2.4em;
             height: 40px;
             color: rgba(255, 255, 255, 0.5);
             font-weight: bold;
@@ -63,7 +100,7 @@
         
         .current-operand {
             word-wrap: break-word;
-            font-size: 2.4em;
+            font-size: 3em;
             padding-right: 20px;
             padding-bottom: 15px;
             font-weight: bold;
@@ -76,12 +113,13 @@
             outline: none;
             color: #fff;
             font-weight: bold;
-            font-size: 2em;
+            font-size: 3em;
             border: 1px solid rgba(35, 29, 29, 1.2);
         }
         
         .items:hover {
             background: rgba(165, 61, 61, 0.8);
+            cursor: pointer;
         }
         
         .items:active {
@@ -107,7 +145,7 @@
                 align-items: center;
             }
             .flex-container {
-                font-size: 1.5em;
+                font-size: 1em;
                 width: 400px;
             }
             .kosh {
@@ -122,8 +160,14 @@
         @media (max-width: 500px) {
             .flex-container {
                 width: 350px;
-                margin-left: 15px;
+                margin-left: 200px;
                 margin-bottom: 20px;
+            }
+            .body {
+                height: 640px;
+            }
+            .box {
+                margin-left: 200px;
             }
         }
     </style>
@@ -131,7 +175,11 @@
 
 <body>
     <div class="main-container">
-        <div class="kosh">kosh calculator</div>
+        <div class="box">
+            <div class="inner"><span>KOSH</span></div>
+            <div class="inner"><span>KOSH</span></div>
+        </div>
+
         <div class="flex-container">
             <div class="operands prev-operand"></div>
             <div class="operands current-operand">0</div>
@@ -156,24 +204,41 @@
         </div>
     </div>
     <script>
+        // global variable
+        let equal_status = 0;
+
         // number buttons
         var btn1 = document.querySelectorAll(".item-num");
         btn1.forEach((element) => {
             element.addEventListener("click", () => {
-                console.log(element);
                 var current = document.querySelector(".current-operand");
 
-                // for numbers
-                if (current.innerText === "0") {
-                    current.innerText = "";
-                    current.innerText += element.innerText;
+                // data operands
+                var data_operands = ["+", "-", "/", "*"];
+                var include_operand_at_last = data_operands.includes(
+                    current.innerText.slice(-1)
+                );
+                console.log(include_operand_at_last);
+                // check status
+                if (equal_status === 1 && !include_operand_at_last) {
+                    console.log(equal_status);
+                    console.log(current.innerText);
+                    current.innerText = element.innerText;
+                    equal_status = 0;
+                    var result = "";
+                } else if (current.innerText === "0") {
+                    current.innerText = element.innerText;
                     var current_text = current.innerText;
+                    var result = "";
                 } else {
                     current.innerText += element.innerText;
                     var current_text = current.innerText;
+                    var result = eval(current_text).toString();
+                    if (result === current_text) {
+                        result = "";
+                    }
                 }
 
-                var result = eval(current_text);
                 document.querySelector(".prev-operand").innerText = result;
             });
         });
@@ -182,6 +247,7 @@
         document.querySelector(".item-clear").addEventListener("click", () => {
             document.querySelector(".current-operand").innerText = "0";
             document.querySelector(".prev-operand").innerText = "";
+            equal_status = 0;
         });
 
         //delete
@@ -249,19 +315,8 @@
                 current_el.innerText = eval(current_el.innerText);
             }
             document.querySelector(".prev-operand").innerText = "";
+            equal_status = 1;
         });
-
-        // previous operand
-        function prev_operand() {
-            var current_el = document.querySelector(".current-operand");
-            var current_text = current_el.innerText;
-            var result = eval(current_text).toString();
-
-            if (current_text === result) {
-                document.querySelectorAll(".prev-operand").innerText = result;
-            }
-        }
-        //prev_operand();
     </script>
 </body>
 
