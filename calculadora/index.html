@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flex box</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap");
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            height: 100vh;
+            background: linear-gradient( to bottom, #3b0f33, #371f45, #302e53, #273b5d, #214764);
+        }
+        
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        
+        .kosh {
+            align-self: center;
+            font-size: 4em;
+            font-family: "Comic Neue", cursive;
+            text-transform: uppercase;
+            word-wrap: break-word;
+            color: rgba(28, 172, 172, 0.8);
+            width: 400px;
+            text-align: center;
+        }
+        
+        .flex-container {
+            width: 500px;
+            height: 600px;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            margin-top: 50px;
+        }
+        
+        .operands {
+            width: 100%;
+            color: #fff;
+            text-align: end;
+            padding: 10px;
+            grid-column: 1/-1;
+        }
+        
+        .prev-operand {
+            padding: 5px;
+            padding-right: 10px;
+            font-size: 1.7em;
+            height: 40px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+        }
+        
+        .current-operand {
+            word-wrap: break-word;
+            font-size: 2.4em;
+            padding-right: 20px;
+            padding-bottom: 15px;
+            font-weight: bold;
+            min-height: 52px;
+        }
+        
+        .items {
+            padding: 10px 15px 10px 15px;
+            background: rgba(35, 29, 29, 0.7);
+            outline: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 2em;
+            border: 1px solid rgba(35, 29, 29, 1.2);
+        }
+        
+        .items:hover {
+            background: rgba(165, 61, 61, 0.8);
+        }
+        
+        .items:active {
+            background: rgb(133, 8, 8);
+        }
+        
+        .span-two {
+            grid-column: span 2;
+        }
+        
+        .item-equal {
+            grid-row: span 2;
+        }
+        
+        @media (max-width: 900px),
+        (max-height: 780px) {
+            .main-container {
+                margin-top: 10px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .flex-container {
+                font-size: 1.5em;
+                width: 400px;
+            }
+            .kosh {
+                font-size: 4em;
+                font-family: "Comic Neue", cursive;
+                text-transform: uppercase;
+                background: linear-gradient();
+                color: rgba(28, 172, 172, 0.8);
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .flex-container {
+                width: 350px;
+                margin-left: 15px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="kosh">kosh calculator</div>
+        <div class="flex-container">
+            <div class="operands prev-operand"></div>
+            <div class="operands current-operand">0</div>
+            <button class="items item-clear">AC</button>
+            <button class="items item-delete">DEL</button>
+            <button class="items item-div operand">/</button>
+            <button class="items item-mult operand">*</button>
+            <button class="items item-num item7">7</button>
+            <button class="items item-num item8">8</button>
+            <button class="items item-num item9">9</button>
+            <button class="items operand">-</button>
+            <button class="items item-num item4">4</button>
+            <button class="items item-num item5">5</button>
+            <button class="items item-num item6">6</button>
+            <button class="items item-plus operand">+</button>
+            <button class="items item-num item1">1</button>
+            <button class="items item-num item2">2</button>
+            <button class="items item-num item3">3</button>
+            <button class="items item-equal">=</button>
+            <button class="items item-num span-two item-zero">0</button>
+            <button class="items item-dot">.</button>
+        </div>
+    </div>
+    <script>
+        // number buttons
+        var btn1 = document.querySelectorAll(".item-num");
+        btn1.forEach((element) => {
+            element.addEventListener("click", () => {
+                console.log(element);
+                var current = document.querySelector(".current-operand");
+
+                // for numbers
+                if (current.innerText === "0") {
+                    current.innerText = "";
+                    current.innerText += element.innerText;
+                    var current_text = current.innerText;
+                } else {
+                    current.innerText += element.innerText;
+                    var current_text = current.innerText;
+                }
+
+                var result = eval(current_text);
+                document.querySelector(".prev-operand").innerText = result;
+            });
+        });
+
+        // clear button
+        document.querySelector(".item-clear").addEventListener("click", () => {
+            document.querySelector(".current-operand").innerText = "0";
+            document.querySelector(".prev-operand").innerText = "";
+        });
+
+        //delete
+        document.querySelector(".item-delete").addEventListener("click", () => {
+            var current_el = document.querySelector(".current-operand");
+            var current_text = current_el.innerText;
+            if (current_text === "0") {
+                return;
+            } else if (current_text.length === 1) {
+                current_el.innerText = 0;
+                document.querySelector(".prev-operand").innerText = "";
+            } else {
+                current_el.innerText = current_text.slice(0, -1);
+                document.querySelector(
+                        ".prev-operand"
+                    ).innerText = document
+                    .querySelector(".prev-operand")
+                    .innerText.slice(0, -1);
+            }
+        });
+
+        // dot
+        document.querySelector(".item-dot").addEventListener("click", () => {
+            var current_el = document.querySelector(".current-operand");
+            var current_text = current_el.innerText;
+
+            if (current_text.includes(".") || current_text === "") {
+                return;
+            } else {
+                current_el.innerText += ".";
+            }
+        });
+
+        // operands
+        var operands = document.querySelectorAll(".operand");
+        operands.forEach((element) => {
+            element.addEventListener("click", () => {
+                var data_operands = ["+", "-", "/", "*"];
+                var current_el = document.querySelector(".current-operand");
+                var current_text = current_el.innerText;
+                var operand = element.innerText;
+                var is_last_char_operand = data_operands.includes(
+                    current_text.slice(-1)
+                );
+                if (is_last_char_operand) {
+                    console.log(is_last_char_operand);
+                    current_el.innerText = current_text.slice(0, -1) + operand;
+                } else {
+                    current_el.innerText += operand;
+                }
+            });
+        });
+
+        // equal button
+        document.querySelector(".item-equal").addEventListener("click", () => {
+            var data_operands = ["+", "-", "/", "*"];
+            var current_el = document.querySelector(".current-operand");
+            var current_text = current_el.innerText;
+            var is_last_char_operand = data_operands.includes(
+                current_text.slice(-1)
+            );
+            if (is_last_char_operand) {
+                current_el.innerText = current_el.innerText.slice(0, -1);
+            } else {
+                current_el.innerText = eval(current_el.innerText);
+            }
+            document.querySelector(".prev-operand").innerText = "";
+        });
+
+        // previous operand
+        function prev_operand() {
+            var current_el = document.querySelector(".current-operand");
+            var current_text = current_el.innerText;
+            var result = eval(current_text).toString();
+
+            if (current_text === result) {
+                document.querySelectorAll(".prev-operand").innerText = result;
+            }
+        }
+        //prev_operand();
+    </script>
+</body>
+
+</html>
